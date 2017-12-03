@@ -36,3 +36,4 @@
 .\objects\main_1.o: .\Lib\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_dcmi.h
 .\objects\main_1.o: .\Lib\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_fsmc.h
 .\objects\main_1.o: .\gpio.h
+.\objects\main_1.o: .\timer.h

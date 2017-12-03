@@ -1,4 +1,5 @@
-#include <timer.h>
+#include "timer.h"
+#include <misc.h>
 uint32_t timer2_Ticks_Millisec;
 void timer2_init(void)
 {
@@ -50,4 +51,37 @@ NVIC_Init(&NVIC_InitStructure);
 timer2_Ticks_Millisec = 0;
 // TIM2 counter enable
 TIM_Cmd(TIM2, ENABLE);
+}
+
+void TIM2_IRQHandler(void)
+{
+	if (TIM_GetITStatus(TIM2, TIM_IT_Update) != RESET)
+	{
+		TIM_ClearITPendingBit(TIM2, TIM_IT_Update);
+		timer2_Ticks_Millisec++;
+	}
+}
+
+uint32_t timer2_get_millisec()
+{
+	uint32_t value;
+	NVIC_DisableIRQ(TIM2_IRQn);
+	value = timer2_Ticks_Millisec;
+	NVIC_EnableIRQ(TIM2_IRQn);
+	
+	return value;
+}
+
+void timer2_wait_millisec(uint32_t ms)
+{
+	uint32_t t1, t2;
+	t1 = timer2_get_millisec();
+	while(1)
+	{
+		t2 = timer2_get_millisec();
+		if ((t2-t1) >= ms)
+			break;
+		if (t2 < t1)			// almost never occur, once in 49 days
+			break;
+	}
 }
