@@ -19,7 +19,9 @@ int main(void)
 				USART1_SendChar('\n');
 				break;
 			}
-				
-			USART1_SendChar(c);
+			else 
+			{
+				USART1_SendChar(c);
+			}
 	}
 }
